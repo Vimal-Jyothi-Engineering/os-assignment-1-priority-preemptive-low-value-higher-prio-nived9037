@@ -1,10 +1,11 @@
 #include <stdio.h>
 
-struct process {
+struct process
+{
     char pid[10];
     int at, bt, pr;
     int ct, wt, tat;
-    int remaining;
+    int rem;
 };
 
 int main()
@@ -19,30 +20,31 @@ int main()
     for(int i=0;i<n;i++)
     {
         scanf("%s %d %d %d",p[i].pid,&p[i].at,&p[i].bt,&p[i].pr);
-        p[i].remaining = p[i].bt;
+        p[i].rem = p[i].bt;
     }
 
-    while(completed<n)
+    while(completed < n)
     {
         idx = -1;
 
         for(int i=0;i<n;i++)
         {
-            if(p[i].at <= time && p[i].remaining > 0)
+            if(p[i].at <= time && p[i].rem > 0)
             {
-                if(idx==-1 || p[i].pr < p[idx].pr)
+                if(idx == -1 || p[i].pr < p[idx].pr)
                     idx = i;
             }
         }
 
         if(idx != -1)
         {
-            p[idx].remaining--;
+            p[idx].rem--;
             time++;
 
-            if(p[idx].remaining == 0)
+            if(p[idx].rem == 0)
             {
                 completed++;
+
                 p[idx].ct = time;
                 p[idx].tat = p[idx].ct - p[idx].at;
                 p[idx].wt = p[idx].tat - p[idx].bt;
@@ -52,15 +54,20 @@ int main()
             }
         }
         else
+        {
             time++;
+        }
     }
 
     for(int i=0;i<n;i++)
     {
         printf("%s %d %d %d %d %d %d\n",
-        p[i].pid,p[i].at,p[i].bt,p[i].pr,p[i].ct,p[i].tat,p[i].wt);
+        p[i].pid,p[i].at,p[i].bt,p[i].pr,
+        p[i].ct,p[i].tat,p[i].wt);
     }
 
     printf("Average Waiting Time: %.2f\n",avg_wt/n);
     printf("Average Turnaround Time: %.2f\n",avg_tat/n);
+
+    return 0;
 }
